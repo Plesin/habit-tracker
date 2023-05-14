@@ -6,5 +6,8 @@ const theme = createTheme({
     secondary: { main: '#19857b' },
     error: { main: red.A400 },
   },
+  shape: {
+    borderRadius: 8,
+  },
 })
 export default theme
