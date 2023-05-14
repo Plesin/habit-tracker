@@ -54,7 +54,7 @@ export default function HabitModal({
         iconName: 'star',
         streak: 0,
         lastCompleted: null,
-        repeat: 'M',
+        repeat,
       },
     ])
   }
