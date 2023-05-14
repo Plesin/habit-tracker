@@ -8,8 +8,10 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { CustomInput } from './CustomInput'
+import { useSetRecoilState } from 'recoil'
+import { habitsState } from './HabitList'
 
+import { CustomInput } from './CustomInput'
 import InputField from './InputField'
 
 const style = {
@@ -30,7 +32,38 @@ export default function HabitModal({
   open,
   handleModalOpen,
 }: THabitModalProps) {
-  const [repeate, setRepeat] = useState('day')
+  const [habitName, setHabitName] = useState('')
+  const [repeat, setRepeat] = useState('D')
+  const setHabitsState = useSetRecoilState(habitsState)
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHabitName(event.target.value)
+  }
+
+  const handleRepeatChange = (event: SelectChangeEvent<string>) => {
+    setRepeat(event.target.value)
+  }
+
+  const addHabit = () => {
+    setHabitsState((oldHabits) => [
+      ...oldHabits,
+      {
+        id: 4,
+        name: habitName,
+        description: 'Description',
+        iconName: 'star',
+        streak: 0,
+        lastCompleted: null,
+        repeat: 'M',
+      },
+    ])
+  }
+
+  const handleAddHabit = () => {
+    addHabit()
+    handleModalOpen(false)
+  }
+
   return (
     <>
       <Modal open={open} aria-labelledby="modal-modal-title">
@@ -38,7 +71,11 @@ export default function HabitModal({
           <Typography id="modal-modal-title" variant="h5" component="h2">
             New Habit
           </Typography>
-          <InputField name="habit name" />
+          <InputField
+            name="habit name"
+            defaultValue={habitName}
+            onChange={handleNameChange}
+          />
           <FormControl variant="standard">
             <InputLabel shrink id="reapeat-habit-label">
               Repeat
@@ -46,14 +83,14 @@ export default function HabitModal({
             <Select
               labelId="reapeat-habit-label"
               id="reapeat-habit-label"
-              value={repeate}
-              onChange={(e) => setRepeat(e.target.value as string)}
+              value={repeat}
+              onChange={handleRepeatChange}
               autoWidth
               input={<CustomInput />}
             >
-              <MenuItem value="day">Daily</MenuItem>
-              <MenuItem value="week">Weekly</MenuItem>
-              <MenuItem value="month">Montly</MenuItem>
+              <MenuItem value="D">Daily</MenuItem>
+              <MenuItem value="W">Weekly</MenuItem>
+              <MenuItem value="M">Montly</MenuItem>
             </Select>
           </FormControl>
           <Box
@@ -67,7 +104,9 @@ export default function HabitModal({
             <Button variant="text" onClick={() => handleModalOpen(false)}>
               Cancel
             </Button>
-            <Button variant="contained">OK</Button>
+            <Button variant="contained" onClick={handleAddHabit}>
+              OK
+            </Button>
           </Box>
         </Box>
       </Modal>

@@ -7,34 +7,43 @@ import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
 
-const items = [
-  {
-    id: 1,
-    name: 'Meditate',
-    description: 'Description',
-    iconName: 'star',
-    streak: 0,
-    lastCompleted: null,
-  },
-  {
-    id: 2,
-    name: 'Morning Yoga',
-    description: 'Description',
-    iconName: 'add_circle',
-    streak: 0,
-    lastCompleted: null,
-  },
-  {
-    id: 3,
-    name: '10k Steps a day',
-    description: 'Description',
-    iconName: 'directions_walk',
-    streak: 0,
-    lastCompleted: null,
-  },
-]
+import { atom, useRecoilValue } from 'recoil'
+
+export const habitsState = atom({
+  key: 'habits',
+  default: [
+    {
+      id: 1,
+      name: 'Meditate',
+      description: 'Description',
+      iconName: 'star',
+      streak: 0,
+      lastCompleted: null,
+      repeat: 'D',
+    },
+    {
+      id: 2,
+      name: 'Morning Yoga',
+      description: 'Description',
+      iconName: 'add_circle',
+      streak: 0,
+      lastCompleted: null,
+      repeat: 'D',
+    },
+    {
+      id: 3,
+      name: '10k Steps a day',
+      description: 'Description',
+      iconName: 'directions_walk',
+      streak: 0,
+      lastCompleted: null,
+      repeat: 'D',
+    },
+  ],
+})
 
 export default function InsetDividers() {
+  const items = useRecoilValue(habitsState)
   return (
     <List
       sx={{
@@ -49,38 +58,14 @@ export default function InsetDividers() {
                 <Icon>{item.iconName}</Icon>
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={item.name} secondary={item.description} />
+            <ListItemText
+              primary={`${item.name} | ${item.repeat}`}
+              secondary={item.description}
+            />
           </ListItem>
-          <Divider variant="inset" component="li" />
+          <Divider variant="inset" component="li" sx={{ marginLeft: 0 }} />
         </Box>
       ))}
-
-      {/* <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <WorkIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Work" secondary="Jan 7, 2014" />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <BeachAccessIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Vacation" secondary="July 20, 2014" />
-      </ListItem> */}
     </List>
   )
 }
