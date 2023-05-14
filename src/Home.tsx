@@ -1,8 +1,16 @@
+import { useState } from 'react'
 import { Fab, Box } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import HabitList from './HabitList'
+import HabitModal from './HabitModal'
 
 export default function Home() {
+  const [open, setOpen] = useState(false)
+
+  const handleModalOpen = (open: boolean) => {
+    setOpen(open)
+  }
+
   return (
     <>
       <HabitList />
@@ -16,10 +24,15 @@ export default function Home() {
           right: 0,
         }}
       >
-        <Fab color="secondary" aria-label="add">
+        <Fab
+          color="secondary"
+          aria-label="add"
+          onClick={() => handleModalOpen(true)}
+        >
           <AddIcon />
         </Fab>
       </Box>
+      <HabitModal open={open} handleModalOpen={handleModalOpen} />
     </>
   )
 }
