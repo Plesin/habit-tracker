@@ -51,9 +51,9 @@ export default function HabitModal({
         id: 4,
         name: habitName,
         description: 'Description',
-        iconName: 'star',
+        iconName: 'check_circle',
         streak: 0,
-        lastCompleted: null,
+        completed: false,
         repeat,
       },
     ])
