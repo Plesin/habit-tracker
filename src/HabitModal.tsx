@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { useSetRecoilState } from 'recoil'
-import { habitsState } from './HabitList'
+import { habitsState } from './state'
 
 import { CustomInput } from './CustomInput'
 import InputField from './InputField'
@@ -45,18 +45,25 @@ export default function HabitModal({
   }
 
   const addHabit = () => {
-    setHabitsState((oldHabits) => [
-      ...oldHabits,
-      {
-        id: 4,
-        name: habitName,
-        description: 'Description',
-        iconName: 'check_circle',
-        streak: 0,
-        completed: false,
-        repeat,
-      },
-    ])
+    setHabitsState((oldHabits) => {
+      const ids = oldHabits.map((habit) => habit.id)
+      let maxId = Math.max(...ids)
+      const newId = maxId + 1
+      setHabitName('')
+
+      return [
+        ...oldHabits,
+        {
+          id: newId,
+          name: habitName,
+          description: 'Description',
+          iconName: 'check_circle',
+          streak: 0,
+          completed: false,
+          repeat,
+        },
+      ]
+    })
   }
 
   const handleAddHabit = () => {
