@@ -3,6 +3,8 @@ import { Fab, Box } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import HabitList from './HabitList'
 import HabitModal from './HabitModal'
+import Summary from './Summary'
+import Timeline from './Timeline'
 
 export default function Home() {
   const [open, setOpen] = useState(false)
@@ -13,6 +15,8 @@ export default function Home() {
 
   return (
     <>
+      <Summary />
+      <Timeline />
       <HabitList />
       <Box
         sx={{
