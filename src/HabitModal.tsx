@@ -7,6 +7,8 @@ import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { useSetRecoilState } from 'recoil'
 import { habitsState } from './state'
@@ -33,11 +35,16 @@ export default function HabitModal({
   handleModalOpen,
 }: THabitModalProps) {
   const [habitName, setHabitName] = useState('')
+  const [duration, setDuration] = useState('' as string | number)
   const [repeat, setRepeat] = useState('D')
   const setHabitsState = useSetRecoilState(habitsState)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHabitName(event.target.value)
+  }
+
+  const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDuration(event.target.value)
   }
 
   const handleRepeatChange = (event: SelectChangeEvent<string>) => {
@@ -56,6 +63,7 @@ export default function HabitModal({
         {
           id: newId,
           name: habitName,
+          duration: Number(duration),
           description: 'Description',
           iconName: 'check_circle',
           streak: 0,
@@ -82,6 +90,17 @@ export default function HabitModal({
             name="habit name"
             defaultValue={habitName}
             onChange={handleNameChange}
+          />
+          <InputField
+            name="habit time (minutes)"
+            defaultValue={duration}
+            onChange={handleDurationChange}
+            inline
+            inputProps={{
+              type: 'number',
+              min: 0,
+              step: 1,
+            }}
           />
           <FormControl variant="standard">
             <InputLabel shrink id="reapeat-habit-label">

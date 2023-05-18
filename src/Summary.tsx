@@ -5,7 +5,6 @@ import { useRecoilValue, selector } from 'recoil'
 import { habitsState } from './state'
 
 export default function Summary() {
-  const items = useRecoilValue(habitsState)
   const summaryState = selector({
     key: 'summaryState',
     get: ({ get }) => {
@@ -13,22 +12,30 @@ export default function Summary() {
       const total = habits.length
       const completed = habits.filter((habit) => habit.completed).length
       const todo = total - completed
+      const allCompleted = total === completed
+      const totalDuration = habits.reduce((acc, habit) => {
+        return acc + habit.duration
+      }, 0)
+
       return {
         total,
-        totalColor: total === completed ? 'success.main' : 'warning.main',
+        totalColor: allCompleted ? 'success.main' : 'warning.main',
         completed,
-        completedColor: total === completed ? 'success.main' : 'warning.main',
+        completedColor: allCompleted ? 'success.main' : 'warning.main',
         todo,
-        todoColor: todo !== total ? 'success.main' : 'info.main',
+        todoColor: allCompleted ? 'success.main' : 'info.main',
+        allCompleted,
+        totalDuration,
       }
     },
   })
   const summaryValues = useRecoilValue(summaryState)
+  const partyIcon = summaryValues.allCompleted ? '🎉' : ''
 
   return (
-    <Paper sx={{ m: '0.5rem', p: '0.5rem 1rem' }}>
+    <Paper sx={{ m: '0.5rem', p: '0.5rem 1rem', backgroundColor: 'primary' }}>
       <Typography variant="h6" sx={{ textAlign: 'center' }}>
-        Summary
+        {partyIcon} Summary {partyIcon}
       </Typography>
       <Grid sx={{ flexGrow: 1 }} container>
         <Grid item xs={6}>
@@ -62,8 +69,13 @@ export default function Summary() {
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="subtitle1" display="block" gutterBottom>
-            Date: {new Date().toLocaleDateString()}
+          <Typography
+            variant="subtitle1"
+            display="block"
+            gutterBottom
+            sx={{ color: 'info.main' }}
+          >
+            Time {summaryValues.totalDuration} minutes
           </Typography>
         </Grid>
       </Grid>
