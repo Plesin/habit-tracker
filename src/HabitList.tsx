@@ -51,7 +51,7 @@ export default function InsetDividers() {
                 </ListItemAvatar>
                 <ListItemText
                   primary={`${item.name} | ${item.repeat}`}
-                  secondary={item.description}
+                  secondary={`${item.duration} minutes`}
                 />
               </ListItem>
               <Divider variant="inset" component="li" sx={{ marginLeft: 0 }} />
