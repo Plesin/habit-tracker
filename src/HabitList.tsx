@@ -7,12 +7,12 @@ import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { habitsState } from './state'
-
-import Summary from './Summary'
+import { habitsState, last7DaysState } from './state'
+import { format } from 'date-fns'
 
 export default function InsetDividers() {
   const items = useRecoilValue(habitsState)
+  const last7Days = useRecoilValue(last7DaysState)
   const setHabitsState = useSetRecoilState(habitsState)
   const toggleCompleted = (id: number) => {
     setHabitsState((oldHabits) => {
@@ -29,36 +29,64 @@ export default function InsetDividers() {
   }
 
   return (
-    <>
-      <Summary />
-      <List
-        sx={{
-          width: '100%',
-        }}
-      >
-        {items.map((item) => {
-          const color = item.completed ? 'success.main' : 'text.grey'
-          return (
-            <Box key={item.id}>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar
-                    onClick={() => toggleCompleted(item.id)}
-                    sx={{ backgroundColor: color }}
-                  >
-                    <Icon>{item.iconName}</Icon>
-                  </Avatar>
-                </ListItemAvatar>
+    <List
+      sx={{
+        width: '100%',
+      }}
+    >
+      {items.map((item) => {
+        const color = item.completed ? 'success.main' : 'text.grey'
+        return (
+          <>
+            <Box
+              key={item.id}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <ListItem sx={{ pb: 0 }}>
                 <ListItemText
                   primary={`${item.name} | ${item.repeat}`}
                   secondary={`${item.duration} minutes`}
                 />
               </ListItem>
-              <Divider variant="inset" component="li" sx={{ marginLeft: 0 }} />
+              <ListItemAvatar>
+                <Avatar
+                  onClick={() => toggleCompleted(item.id)}
+                  sx={{ backgroundColor: color }}
+                >
+                  <Icon>{item.iconName}</Icon>
+                </Avatar>
+              </ListItemAvatar>
             </Box>
-          )
-        })}
-      </List>
-    </>
+            <Box
+              sx={{
+                padding: '0 16px',
+                margin: '3px 0',
+                display: 'flex',
+                gap: '10px',
+                flexDirection: 'row',
+                flex: 1,
+                justifyContent: 'start',
+              }}
+            >
+              {last7Days.map((item) => (
+                <Box
+                  sx={{
+                    gap: '10px',
+                    width: '30px',
+                    height: '6px',
+                    backgroundColor: 'green',
+                  }}
+                  title={format(item, 'eee d')}
+                ></Box>
+              ))}
+            </Box>
+            <Divider variant="inset" component="li" sx={{ marginLeft: 0 }} />
+          </>
+        )
+      })}
+    </List>
   )
 }
