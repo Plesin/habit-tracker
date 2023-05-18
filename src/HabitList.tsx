@@ -6,13 +6,21 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState, selector } from 'recoil'
 import { habitsState, last7DaysState } from './state'
 import { format } from 'date-fns'
 
 export default function InsetDividers() {
   const items = useRecoilValue(habitsState)
-  const last7Days = useRecoilValue(last7DaysState)
+  const past6DaysState = selector({
+    key: 'past6Days',
+    get: ({ get }) => {
+      const last7days: (number | Date)[] = get(last7DaysState)
+      const past6Days = last7days.slice(0, 6)
+      return past6Days
+    },
+  })
+  const past6Days = useRecoilValue(past6DaysState)
   const setHabitsState = useSetRecoilState(habitsState)
   const toggleCompleted = (id: number) => {
     setHabitsState((oldHabits) => {
@@ -65,18 +73,18 @@ export default function InsetDividers() {
                 padding: '0 16px',
                 margin: '3px 0',
                 display: 'flex',
-                gap: '10px',
+                gap: '8px',
                 flexDirection: 'row',
                 flex: 1,
                 justifyContent: 'start',
               }}
             >
-              {last7Days.map((item) => (
+              {past6Days.map((item) => (
                 <Box
                   sx={{
-                    gap: '10px',
-                    width: '30px',
+                    width: '40px',
                     height: '6px',
+                    borderRadius: '3px',
                     backgroundColor: 'green',
                   }}
                   title={format(item, 'eee d')}
