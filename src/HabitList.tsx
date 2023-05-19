@@ -6,21 +6,13 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
-import { useRecoilValue, useSetRecoilState, selector } from 'recoil'
-import { habitsState, last7DaysState } from './state'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { habitsState, past7DaysState } from './state'
 import { format } from 'date-fns'
 
 export default function InsetDividers() {
   const items = useRecoilValue(habitsState)
-  const past6DaysState = selector({
-    key: 'past6Days',
-    get: ({ get }) => {
-      const last7days: (number | Date)[] = get(last7DaysState)
-      const past6Days = last7days.slice(0, 6)
-      return past6Days
-    },
-  })
-  const past6Days = useRecoilValue(past6DaysState)
+  const past7Days = useRecoilValue(past7DaysState)
   const setHabitsState = useSetRecoilState(habitsState)
   const toggleCompleted = (id: number) => {
     setHabitsState((oldHabits) => {
@@ -71,23 +63,26 @@ export default function InsetDividers() {
             <Box
               sx={{
                 padding: '0 16px',
-                margin: '3px 0',
                 display: 'flex',
-                gap: '8px',
                 flexDirection: 'row',
                 flex: 1,
-                justifyContent: 'start',
+                justifyContent: 'center',
+                gap: '10px',
               }}
             >
-              {past6Days.map((item) => (
+              {past7Days.map((item) => (
                 <Box
+                  title={format(item, 'eee d')}
                   sx={{
-                    width: '40px',
+                    flex: 1,
                     height: '6px',
+                    mb: '3px',
                     borderRadius: '3px',
                     backgroundColor: 'green',
+                    ':last-child': {
+                      visibility: 'hidden',
+                    },
                   }}
-                  title={format(item, 'eee d')}
                 ></Box>
               ))}
             </Box>

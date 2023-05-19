@@ -4,10 +4,10 @@ import ListItemText from '@mui/material/ListItemText'
 import { useRecoilValue } from 'recoil'
 import { format } from 'date-fns'
 
-import { last7DaysState } from './state'
+import { past7DaysState } from './state'
 
 export default function Timeline() {
-  const last7Days = useRecoilValue(last7DaysState)
+  const past7Days = useRecoilValue(past7DaysState)
   return (
     <List
       sx={{
@@ -18,7 +18,7 @@ export default function Timeline() {
         justifyContent: 'center',
       }}
     >
-      {last7Days.map((day) => {
+      {past7Days.map((day) => {
         return (
           <ListItem
             sx={{ p: 0, textAlign: 'center', backgroundColor: 'grey.100' }}
