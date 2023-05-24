@@ -17,11 +17,11 @@ import { habitsState, past7DaysState } from './atoms'
 import HabitsSkeleton from './HabitsSkeleton'
 import type { THabit } from './types'
 
-export default function HabitsList() {
+export default function HabitList() {
   const habitsLoadable = useRecoilValueLoadable(habitsState)
   const past7Days = useRecoilValue(past7DaysState)
   const setHabitsState = useSetRecoilState(habitsState)
-  const toggleCompleted = (id: number) => {
+  const toggleCompleted = (id: string) => {
     setHabitsState((oldHabits: THabit[]) => {
       return oldHabits.map((habit) => {
         if (habit.id === id) {
