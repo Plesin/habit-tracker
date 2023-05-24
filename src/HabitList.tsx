@@ -6,16 +6,23 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { habitsState, past7DaysState } from './atoms'
+import {
+  useRecoilValue,
+  useRecoilValueLoadable,
+  useSetRecoilState,
+} from 'recoil'
 import { format } from 'date-fns'
 
+import { habitsState, past7DaysState } from './atoms'
+import HabitsSkeleton from './HabitsSkeleton'
+import type { THabit } from './types'
+
 export default function InsetDividers() {
-  const items = useRecoilValue(habitsState)
+  const habitsLoadable = useRecoilValueLoadable(habitsState)
   const past7Days = useRecoilValue(past7DaysState)
   const setHabitsState = useSetRecoilState(habitsState)
   const toggleCompleted = (id: number) => {
-    setHabitsState((oldHabits) => {
+    setHabitsState((oldHabits: THabit[]) => {
       return oldHabits.map((habit) => {
         if (habit.id === id) {
           return {
@@ -28,13 +35,19 @@ export default function InsetDividers() {
     })
   }
 
+  if (habitsLoadable.state === 'loading') {
+    return <HabitsSkeleton />
+  }
+
+  const habits = habitsLoadable.contents
+
   return (
     <List
       sx={{
         width: '100%',
       }}
     >
-      {items.map((item) => {
+      {habits.map((item: THabit) => {
         const color = item.completed ? 'success.main' : 'text.grey'
         return (
           <>

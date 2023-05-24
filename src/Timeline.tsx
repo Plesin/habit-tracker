@@ -19,13 +19,15 @@ export default function Timeline() {
       }}
     >
       {past7Days.map((day) => {
+        const dayOfMonth = format(day, 'd')
         return (
           <ListItem
             sx={{ p: 0, textAlign: 'center', backgroundColor: 'grey.100' }}
+            key={dayOfMonth}
           >
             <ListItemText
               primary={`${format(day, 'eee')}`}
-              secondary={format(day, 'd')}
+              secondary={dayOfMonth}
             />
           </ListItem>
         )
