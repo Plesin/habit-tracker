@@ -17,7 +17,7 @@ import { habitsState, past7DaysState } from './atoms'
 import HabitsSkeleton from './HabitsSkeleton'
 import type { THabit } from './types'
 
-export default function InsetDividers() {
+export default function HabitsList() {
   const habitsLoadable = useRecoilValueLoadable(habitsState)
   const past7Days = useRecoilValue(past7DaysState)
   const setHabitsState = useSetRecoilState(habitsState)
@@ -50,9 +50,8 @@ export default function InsetDividers() {
       {habits.map((item: THabit) => {
         const color = item.completed ? 'success.main' : 'text.grey'
         return (
-          <>
+          <Box key={item.id}>
             <Box
-              key={item.id}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -86,6 +85,7 @@ export default function InsetDividers() {
               {past7Days.map((item) => (
                 <Box
                   title={format(item, 'eee d')}
+                  key={format(item, 'd')}
                   sx={{
                     flex: 1,
                     height: '6px',
@@ -100,7 +100,7 @@ export default function InsetDividers() {
               ))}
             </Box>
             <Divider variant="inset" component="li" sx={{ marginLeft: 0 }} />
-          </>
+          </Box>
         )
       })}
     </List>
