@@ -50,9 +50,8 @@ export default function HabitList() {
       {habits.map((item: THabit) => {
         const color = item.completed ? 'success.main' : 'text.grey'
         return (
-          <>
+          <Box key={item.id}>
             <Box
-              key={item.id}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -86,6 +85,7 @@ export default function HabitList() {
               {past7Days.map((item) => (
                 <Box
                   title={format(item, 'eee d')}
+                  key={format(item, 'd')}
                   sx={{
                     flex: 1,
                     height: '6px',
@@ -100,7 +100,7 @@ export default function HabitList() {
               ))}
             </Box>
             <Divider variant="inset" component="li" sx={{ marginLeft: 0 }} />
-          </>
+          </Box>
         )
       })}
     </List>
