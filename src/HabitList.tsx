@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { habitsState, past7DaysState } from './state'
+import { habitsState, past7DaysState } from './atoms'
 import { format } from 'date-fns'
 
 export default function InsetDividers() {

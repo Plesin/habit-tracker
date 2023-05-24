@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { useSetRecoilState } from 'recoil'
-import { habitsState } from './state'
+import { habitsState } from './atoms'
 
 import { CustomInput } from './CustomInput'
 import InputField from './InputField'

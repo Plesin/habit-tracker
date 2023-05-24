@@ -2,7 +2,7 @@ import { Paper, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useRecoilValue, selector } from 'recoil'
 
-import { habitsState } from './state'
+import { habitsState } from './atoms'
 
 export default function Summary() {
   const summaryState = selector({

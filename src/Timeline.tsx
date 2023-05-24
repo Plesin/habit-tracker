@@ -4,7 +4,7 @@ import ListItemText from '@mui/material/ListItemText'
 import { useRecoilValue } from 'recoil'
 import { format } from 'date-fns'
 
-import { past7DaysState } from './state'
+import { past7DaysState } from './atoms'
 
 export default function Timeline() {
   const past7Days = useRecoilValue(past7DaysState)
