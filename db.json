@@ -1,7 +1,7 @@
 {
   "habits": [
     {
-      "id": 1,
+      "id": "43107989-d37e-499e-aa1c-c80c2480136d",
       "name": "Meditate",
       "description": "Description",
       "iconName": "check_circle",
@@ -11,7 +11,7 @@
       "repeat": "D"
     },
     {
-      "id": 2,
+      "id": "c3ab604f-4f6e-43c6-bef8-bb4472f810f9",
       "name": "Morning Yoga",
       "description": "Description",
       "iconName": "check_circle",
@@ -21,7 +21,7 @@
       "repeat": "D"
     },
     {
-      "id": 3,
+      "id": "60803a33-19b2-4c1f-a7c2-9c90d0e3851c",
       "name": "10k Steps a day",
       "description": "Description",
       "iconName": "check_circle",
@@ -31,7 +31,7 @@
       "repeat": "D"
     },
     {
-      "id": 4,
+      "id": "9556182b-3158-4275-9dba-121d2bb92bee",
       "name": "Vitamins",
       "description": "Description",
       "iconName": "check_circle",

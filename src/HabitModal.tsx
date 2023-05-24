@@ -7,17 +7,18 @@ import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { useSetRecoilState } from 'recoil'
-import { habitsState } from './atoms'
+import { v4 as uuidv4 } from 'uuid'
 
+import { habitsState } from './atoms'
 import { CustomInput } from './CustomInput'
 import InputField from './InputField'
+import type { THabit } from './types'
+import { postHabit } from '../api'
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   width: '100vw',
   height: '100vh',
   bgcolor: 'background.paper',
@@ -51,31 +52,38 @@ export default function HabitModal({
     setRepeat(event.target.value)
   }
 
-  const addHabit = () => {
-    setHabitsState((oldHabits) => {
-      const ids = oldHabits.map((habit) => habit.id)
-      let maxId = Math.max(...ids)
-      const newId = maxId + 1
+  const addHabit = (habit: THabit) => {
+    setHabitsState((oldHabits: THabit[]) => {
       setHabitName('')
 
       return [
         ...oldHabits,
         {
-          id: newId,
-          name: habitName,
-          duration: Number(duration),
-          description: 'Description',
+          id: habit.id,
+          name: habit.name,
+          duration: habit.duration,
+          description: habit.description,
           iconName: 'check_circle',
-          streak: 0,
-          completed: false,
-          repeat,
+          streak: habit.streak,
+          completed: habit.completed,
+          repeat: habit.repeat,
         },
       ]
     })
   }
 
-  const handleAddHabit = () => {
-    addHabit()
+  const handleHabitSubmit = async () => {
+    const newHabit = await postHabit({
+      id: uuidv4(),
+      name: habitName,
+      duration: 5,
+      description: 'abcd',
+      iconName: 'check_circle',
+      streak: 0,
+      completed: false,
+      repeat: 'D',
+    })
+    addHabit(newHabit)
     handleModalOpen(false)
   }
 
@@ -130,7 +138,7 @@ export default function HabitModal({
             <Button variant="text" onClick={() => handleModalOpen(false)}>
               Cancel
             </Button>
-            <Button variant="contained" onClick={handleAddHabit}>
+            <Button variant="contained" onClick={handleHabitSubmit}>
               OK
             </Button>
           </Box>

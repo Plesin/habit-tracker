@@ -1,5 +1,5 @@
 export type THabit = {
-  id: number
+  id: string
   name: string
   description: string
   iconName: 'check_circle'
