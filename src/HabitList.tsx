@@ -6,23 +6,17 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
-import {
-  useRecoilValue,
-  useRecoilValueLoadable,
-  useSetRecoilState,
-} from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { format } from 'date-fns'
 
 import { habitsState, past7DaysState } from './atoms'
-import HabitsSkeleton from './HabitsSkeleton'
 import type { THabit } from './types'
 
 export default function HabitList() {
-  const habitsLoadable = useRecoilValueLoadable(habitsState)
+  const habits = useRecoilValue(habitsState)
   const past7Days = useRecoilValue(past7DaysState)
-  const setHabitsState = useSetRecoilState(habitsState)
   const toggleCompleted = (id: string) => {
-    setHabitsState((oldHabits: THabit[]) => {
+    habits((oldHabits: THabit[]) => {
       return oldHabits.map((habit) => {
         if (habit.id === id) {
           return {
@@ -34,12 +28,6 @@ export default function HabitList() {
       })
     })
   }
-
-  if (habitsLoadable.state === 'loading') {
-    return <HabitsSkeleton />
-  }
-
-  const habits = habitsLoadable.contents
 
   return (
     <List
