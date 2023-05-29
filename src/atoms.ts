@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 import { subDays } from 'date-fns'
-import { getHabits } from '../api'
+import { getHabits, getCompletedDates } from '../api'
 
 export const habitsState = atom({
   key: 'habits',
@@ -17,4 +17,9 @@ for (let i = 6; i >= 0; i--) {
 export const past7DaysState = atom({
   key: 'past7Days',
   default: past7Days,
+})
+
+export const completedDatesState = atom({
+  key: 'completedDates',
+  default: getCompletedDates(),
 })
