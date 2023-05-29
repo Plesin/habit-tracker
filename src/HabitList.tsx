@@ -6,17 +6,32 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Divider from '@mui/material/Divider'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { format } from 'date-fns'
 
-import { habitsState, past7DaysState } from './atoms'
+import { habitsState, past7DaysState, completedDatesState } from './atoms'
 import type { THabit } from './types'
+
+// TODO - optimize - too many calls
+const getCompletedState = (
+  day: number | Date,
+  completedDates: string[] = []
+) => {
+  if (completedDates.includes(format(day, 'yyyy-MM-dd'))) {
+    return 'success.main'
+  }
+  return 'grey.400'
+}
 
 export default function HabitList() {
   const habits = useRecoilValue(habitsState)
   const past7Days = useRecoilValue(past7DaysState)
+  const completedDates = useRecoilValue(completedDatesState)
+  const setHabitsState = useSetRecoilState(habitsState)
+
   const toggleCompleted = (id: string) => {
-    habits((oldHabits: THabit[]) => {
+    // TODO a POST call
+    setHabitsState((oldHabits: THabit[]) => {
       return oldHabits.map((habit) => {
         if (habit.id === id) {
           return {
@@ -70,16 +85,19 @@ export default function HabitList() {
                 gap: '10px',
               }}
             >
-              {past7Days.map((item) => (
+              {past7Days.map((day) => (
                 <Box
-                  title={format(item, 'eee d')}
-                  key={format(item, 'd')}
+                  title={format(day, 'eee d')}
+                  key={format(day, 'd')}
                   sx={{
                     flex: 1,
                     height: '6px',
                     mb: '3px',
                     borderRadius: '3px',
-                    backgroundColor: 'green',
+                    backgroundColor: getCompletedState(
+                      day,
+                      completedDates[item.id]
+                    ),
                     ':last-child': {
                       visibility: 'hidden',
                     },

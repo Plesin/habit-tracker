@@ -15,3 +15,11 @@ export const postHabit = async (habit: THabit) => {
     body: JSON.stringify(habit),
   }).then((res) => res.json())
 }
+
+export const getCompletedDates = async () => {
+  return fetch(`${BaseUrl}/completedDates`).then((res) => res.json())
+}
+
+export const getCompletedDatesById = async (habitId: string) => {
+  return fetch(`${BaseUrl}/completedDates/${habitId}`).then((res) => res.json())
+}
