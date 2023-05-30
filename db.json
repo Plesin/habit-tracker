@@ -39,6 +39,16 @@
       "duration": 1,
       "completed": false,
       "repeat": "D"
+    },
+    {
+      "id": "0b0e0d39-3fd9-4b2a-9dc3-2b4423fd6857",
+      "name": "AAAAA",
+      "duration": 5,
+      "description": "abcd",
+      "iconName": "check_circle",
+      "streak": 0,
+      "completed": false,
+      "repeat": "D"
     }
   ],
   "completedDates": {
@@ -73,6 +83,8 @@
       "2023-05-27",
       "2023-05-28"
     ],
-    "9556182b-3158-4275-9dba-121d2bb92bee": ["2023-05-28"]
+    "9556182b-3158-4275-9dba-121d2bb92bee": [
+      "2023-05-28"
+    ]
   }
 }
