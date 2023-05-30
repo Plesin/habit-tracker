@@ -3,6 +3,7 @@ import { Grid } from '@mui/material'
 import { useRecoilValue, selector } from 'recoil'
 
 import { habitsState } from './atoms'
+import type { THabit } from './types'
 
 export default function Summary() {
   const summaryState = selector({
@@ -10,10 +11,10 @@ export default function Summary() {
     get: ({ get }) => {
       const habits = get(habitsState)
       const total = habits.length
-      const completed = habits.filter((habit) => habit.completed).length
+      const completed = habits.filter((habit: THabit) => habit.completed).length
       const todo = total - completed
       const allCompleted = total === completed
-      const totalDuration = habits.reduce((acc, habit) => {
+      const totalDuration = habits.reduce((acc: number, habit: THabit) => {
         return acc + habit.duration
       }, 0)
 
@@ -35,7 +36,7 @@ export default function Summary() {
   return (
     <Paper sx={{ m: '0.5rem', p: '0.5rem 1rem', backgroundColor: 'primary' }}>
       <Typography variant="h6" sx={{ textAlign: 'center' }}>
-        {partyIcon} Summary {partyIcon}
+        {partyIcon} Today's Summary {partyIcon}
       </Typography>
       <Grid sx={{ flexGrow: 1 }} container>
         <Grid item xs={6}>
